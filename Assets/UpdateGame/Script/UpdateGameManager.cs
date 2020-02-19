@@ -1,15 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Unity.RemoteConfig;
 
 namespace MS
 {
 	[ExecuteInEditMode]
 	public class UpdateGameManager : MonoBehaviour 
 	{
-			
+		
 		[Header("UpdateSetting")]
 		[SerializeField] int currentVersion;
 
@@ -59,6 +58,10 @@ namespace MS
 				#if !UNITY_EDITOR
 					intance = this;
 					DontDestroyOnLoad (this.gameObject);
+					_updateDialog.SetActive (false);
+					_newsDialog.SetActive (false);
+					ConfigManager.FetchCompleted+=onUpdateSetting;
+					ConfigManager.FetchConfigs<int,int>(0,0);
 				#endif
 			} else {
 				DestroyImmediate (this.gameObject);
@@ -66,33 +69,35 @@ namespace MS
 		}
 		void Start()
 		{
-			_updateDialog.SetActive (false);
-			_newsDialog.SetActive (false);
-			RemoteSettings.Updated += onUpdateSetting;
-			RemoteSettings.ForceUpdate ();
+			
+			// RemoteSettings.Updated += onUpdateSetting;
+			// RemoteSettings.ForceUpdate ();
 		}
-		void onUpdateSetting()
+		void onUpdateSetting(ConfigResponse config)
 		{
-			minVersion = RemoteSettings.GetInt (minVersionRemoteName, 0);
-			letestVersion = RemoteSettings.GetInt (letestVersionRemoteName, currentVersion);
+			if(config.status==ConfigRequestStatus.Success)
+			{
+				minVersion = ConfigManager.appConfig.GetInt (minVersionRemoteName, 0);
+				letestVersion = ConfigManager.appConfig.GetInt (letestVersionRemoteName, currentVersion);
 
-			letestAndroidURL = RemoteSettings.GetString (letestAndroidURLName, letestAndroidURL);
-			letestIosURL = RemoteSettings.GetString (letestIosURLName, letestIosURL);
+				letestAndroidURL = ConfigManager.appConfig.GetString (letestAndroidURLName, letestAndroidURL);
+				letestIosURL = ConfigManager.appConfig.GetString (letestIosURLName, letestIosURL);
 
-			UpdateAvalibleMsg = RemoteSettings.GetString (UpdateAvalibleMsgName, UpdateAvalibleMsg);
-			UpdateNeedMsg = RemoteSettings.GetString (UpdateNeedMsgName, UpdateNeedMsg);
+				UpdateAvalibleMsg = ConfigManager.appConfig.GetString (UpdateAvalibleMsgName, UpdateAvalibleMsg);
+				UpdateNeedMsg = ConfigManager.appConfig.GetString (UpdateNeedMsgName, UpdateNeedMsg);
 
-			ShowNews = RemoteSettings.GetBool (ShowNewsName, ShowNews);
-			NewsImageURL = RemoteSettings.GetString (NewsImageURLName, NewsImageURL);
-			NewsClickAndroidURL = RemoteSettings.GetString (NewsClickAndroidURLName, NewsClickAndroidURL);
-			NewsClickIosURL = RemoteSettings.GetString (NewsClickIosURLName, NewsClickIosURL);
+				ShowNews = ConfigManager.appConfig.GetBool (ShowNewsName, ShowNews);
+				NewsImageURL = ConfigManager.appConfig.GetString (NewsImageURLName, NewsImageURL);
+				NewsClickAndroidURL = ConfigManager.appConfig.GetString (NewsClickAndroidURLName, NewsClickAndroidURL);
+				NewsClickIosURL = ConfigManager.appConfig.GetString (NewsClickIosURLName, NewsClickIosURL);
 
-			if (currentVersion < minVersion) {
-				ShowUpdateNeedPopup ();
-			} else if (currentVersion < letestVersion) {
-				ShowUpdateAvaliblePopup ();
-			} else if(ShowNews) {			
-				StartCoroutine (setupNewsImage ());
+				if (currentVersion < minVersion) {
+					ShowUpdateNeedPopup ();
+				} else if (currentVersion < letestVersion) {
+					ShowUpdateAvaliblePopup ();
+				} else if(ShowNews) {			
+					StartCoroutine (setupNewsImage ());
+				}
 			}
 
 
@@ -108,7 +113,7 @@ namespace MS
 				_updateDialog.SetActive(false);
 				#if UNITY_ANDROID
 					Application.OpenURL(letestAndroidURL);
-				#elif
+				#else
 					Application.OpenURL(letestIosURL);
 				#endif
 			});
@@ -122,7 +127,7 @@ namespace MS
 			_updateActionBtn.onClick.AddListener(()=>{
 				#if UNITY_ANDROID
 					Application.OpenURL(letestAndroidURL);
-				#elif
+				#else
 					Application.OpenURL(letestIosURL);
 				#endif
 			});
@@ -154,7 +159,7 @@ namespace MS
 				_newsDialog.SetActive (false);
 				#if UNITY_ANDROID
 				Application.OpenURL(NewsClickAndroidURL);
-				#elif
+				#else
 				Application.OpenURL(NewsClickIosURL);
 				#endif
 			});
@@ -167,15 +172,30 @@ namespace MS
 			if(GameObject.FindObjectOfType<UnityEngine.EventSystems.EventSystem>()==null)
 			{
 				Debug.LogError("Add Event System");
+				UnityEditor.EditorApplication.ExecuteMenuItem("GameObject/UI/Event System");
 			}
 			#endif
+			
 		}
+
+
 
 		#if UNITY_EDITOR
 		[UnityEditor.Callbacks.PostProcessBuild]
-		public static void OnPostProcessBuild(UnityEditor.BuildTarget target,string path)
+				public static void OnPostProcessBuild(UnityEditor.BuildTarget target,string path)
 		{
 			Debug.Log ("Update Game Vestion " + PlayerPrefs.GetInt(dataPrefix+"CurrentVersion",0));
+		}
+		[UnityEditor.MenuItem("Window/Add Update Game Manger")]
+		static void AddUpdateGameManger()
+		{
+			if(GameObject.FindObjectOfType<UpdateGameManager>()==null)
+			{
+				UnityEditor.PrefabUtility.InstantiatePrefab(Resources.Load<GameObject>("UpdateGameManger"));
+			}
+			else{
+				Debug.LogError("Already Added");
+			}
 		}
 		#endif
 

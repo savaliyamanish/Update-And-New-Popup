@@ -1,0 +1,7 @@
+key,type,value
+Letest_Ios_URL,string,https://google.com
+Update_Avalible_Msg,string,New Version Available!
+Update_Need_Msg,string,Update App to Move Ahead
+Minimum_Version,int,1
+Letest_Version,int,1
+Letest_Android_URL,string,https://google.com

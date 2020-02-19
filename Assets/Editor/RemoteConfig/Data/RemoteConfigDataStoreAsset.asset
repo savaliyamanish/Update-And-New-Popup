@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
+  m_Name: RemoteConfigDataStoreAsset
+  m_EditorClassIdentifier: 
+  rsKeyList:
+  - metadata:
+      entityId: 47d30a24-1e44-4b4a-83b7-6123ad5329e6
+    rs:
+      key: Letest_Ios_URL
+      type: string
+      value: https://google.com
+  - metadata:
+      entityId: 05568843-00ec-48c4-b810-4db3d8769b1e
+    rs:
+      key: Update_Avalible_Msg
+      type: string
+      value: New Version Available!
+  - metadata:
+      entityId: c7c92ed7-e4a8-4726-b962-46a92c38cb1c
+    rs:
+      key: Update_Need_Msg
+      type: string
+      value: Update App to Move Ahead
+  - metadata:
+      entityId: 82979744-a2cd-453e-8529-613389903ef7
+    rs:
+      key: Minimum_Version
+      type: int
+      value: 1
+  - metadata:
+      entityId: fa5a86a7-c7bd-4624-ad8c-192c590c6bbf
+    rs:
+      key: Letest_Version
+      type: int
+      value: 1
+  - metadata:
+      entityId: 106fb04e-002e-4d85-ac41-67651ecba334
+    rs:
+      key: Letest_Android_URL
+      type: string
+      value: https://google.com
+  rsLastCachedKeyList:
+  - metadata:
+      entityId: 47d30a24-1e44-4b4a-83b7-6123ad5329e6
+    rs:
+      key: Letest_Ios_URL
+      type: string
+      value: https://google.com
+  - metadata:
+      entityId: 05568843-00ec-48c4-b810-4db3d8769b1e
+    rs:
+      key: Update_Avalible_Msg
+      type: string
+      value: New Version Available!
+  - metadata:
+      entityId: c7c92ed7-e4a8-4726-b962-46a92c38cb1c
+    rs:
+      key: Update_Need_Msg
+      type: string
+      value: Update App to Move Ahead
+  - metadata:
+      entityId: 82979744-a2cd-453e-8529-613389903ef7
+    rs:
+      key: Minimum_Version
+      type: int
+      value: 1
+  - metadata:
+      entityId: fa5a86a7-c7bd-4624-ad8c-192c590c6bbf
+    rs:
+      key: Letest_Version
+      type: int
+      value: 1
+  - metadata:
+      entityId: 106fb04e-002e-4d85-ac41-67651ecba334
+    rs:
+      key: Letest_Android_URL
+      type: string
+      value: https://google.com
+  configId: a6748866-7a9c-44af-bcef-8eb5c9be30ce
+  currentEnvironmentId: 52998eb8-ff9d-4fd2-8de1-7dd3b409094e
+  environments:
+  - id: 52998eb8-ff9d-4fd2-8de1-7dd3b409094e
+    appId: 
+    name: Release (Default)
+    description: 
+    createdAt: 2020-02-19T06:44:51Z
+    updatedAt: 2020-02-19T06:44:51Z
+  - id: 8df02de8-da1b-4d3c-8eae-97ad2e2a9f95
+    appId: 
+    name: Development
+    description: 
+    createdAt: 2020-02-19T06:44:51Z
+    updatedAt: 2020-02-19T06:44:51Z
+  rulesList: []
+  lastCachedRulesList: []
+  addedRulesIDs: []
+  updatedRulesIDs: []
+  deletedRulesIDs: []
